@@ -14,4 +14,8 @@ public class Menu {
     public void removeDish(Dish dish) {
         dishes.remove(dish);
     }
+
+    public ArrayList<Dish> getDishes() {
+        return dishes;
+    }
 }

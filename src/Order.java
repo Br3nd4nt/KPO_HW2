@@ -3,12 +3,15 @@ import java.util.ArrayList;
 public class Order {
     private Menu menu;
     private ArrayList<Dish> dishes;
-    private String status;
+    private OrderStatus status;
 
-    public Order(Menu menu) {
+    private Customer customer;
+
+    public Order(Menu menu, Customer customer) {
         this.menu = menu;
         this.dishes = new ArrayList<>();
-        this.status = "Accepted";
+        this.status = OrderStatus.Accepted;
+        this.customer = customer;
     }
 
     public void addDish(Dish dish) {
@@ -19,14 +22,27 @@ public class Order {
         dishes.remove(dish);
     }
 
-    public void process() {
-        this.status = "In progress";
+    public double process() {
+        this.status = OrderStatus.InProgress;
         // Simulate the process of preparing the order
         try {
             Thread.sleep(10000); // 10 seconds
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        this.status = "Готов";
+        this.status = OrderStatus.Ready;
+        return customer.payForOrder(this);
+    }
+
+    public OrderStatus getStatus() {
+        return this.status;
+    }
+
+    public double getTotalPrice() {
+        double total = 0;
+        for (Dish dish : dishes) {
+            total += dish.getPrice();
+        }
+        return total;
     }
 }

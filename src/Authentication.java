@@ -13,7 +13,7 @@ public class Authentication {
 
     public User login(String username, String passwordHash) {
         for (User user : users) {
-            if (user.username.equals(username) && user.passwordHash.equals(passwordHash)) {
+            if (user.username.equals(username) && user.passwordHash == passwordHash.hashCode()) {
                 return user;
             }
         }

@@ -8,4 +8,9 @@ public class Dish {
         this.price = price;
         this.difficulty = difficulty;
     }
+
+
+    public double getPrice() {
+        return price;
+    }
 }
