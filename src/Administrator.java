@@ -10,4 +10,6 @@ public class Administrator extends User{
     public void removeDish(Menu menu, Dish dish) {
         menu.removeDish(dish);
     }
+
+    public void changeDish(){}
 }

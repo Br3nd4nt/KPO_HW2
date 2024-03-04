@@ -26,7 +26,11 @@ public class Order {
         this.status = OrderStatus.InProgress;
         // Simulate the process of preparing the order
         try {
-            Thread.sleep(10000); // 10 seconds
+            int totalCookingTime = 0;
+            for (Dish dish : this.dishes) {
+                totalCookingTime += dish.getDifficulty();
+            }
+            Thread.sleep((int) (totalCookingTime * 1e3)); // 10 seconds
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

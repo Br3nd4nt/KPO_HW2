@@ -11,9 +11,9 @@ public class Authentication {
         users.add(user);
     }
 
-    public User login(String username, String passwordHash) {
+    public User login(String username, String password) {
         for (User user : users) {
-            if (user.username.equals(username) && user.passwordHash == passwordHash.hashCode()) {
+            if (user.username.equals(username) && user.passwordHash == password.hashCode()) {
                 return user;
             }
         }
