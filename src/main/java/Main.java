@@ -11,13 +11,14 @@ public class Main {
     private static Boolean isAdmin = false;
     private static double income = 0;
 
+
     private static void printOptions() {
         System.out.println("Choose option:");
         System.out.println("1) Login");
         System.out.println("2) Register admin");
         System.out.println("3) Register user");
         System.out.println("4) Exit");
-        String input = sc.next();
+        String input = sc.nextLine();
         switch (input) {
             case "1":
                 login();
@@ -39,9 +40,9 @@ public class Main {
 
     private static void login() {
         System.out.print("Input login: ");
-        String login = sc.next();
+        String login = sc.nextLine();
         System.out.print("Input your password: ");
-        String password = sc.next();
+        String password = sc.nextLine();
         User user = auth.login(login, password);
         System.out.println();
         if (user == null) {
@@ -59,12 +60,10 @@ public class Main {
 
     private static void registerAdmin() {
         System.out.print("Input login: ");
-        String login = sc.next();
+        String login = sc.nextLine();
         System.out.print("Input your password: ");
-        String password = sc.next();
-        Administrator newAdmin = new Administrator(login, password);
-        auth.register(newAdmin);
-        currentUser = newAdmin;
+        String password = sc.nextLine();
+        currentUser = auth.register(login, password, true);
         isAdmin = true;
         System.out.println();
         System.out.println("Registered successfully!");
@@ -73,12 +72,10 @@ public class Main {
 
     private static void registerUser() {
         System.out.print("Input login: ");
-        String login = sc.next();
+        String login = sc.nextLine();
         System.out.print("Input your password: ");
-        String password = sc.next();
-        Customer newCustomer = new Customer(login, password);
-        auth.register(newCustomer);
-        currentUser = newCustomer;
+        String password = sc.nextLine();
+        currentUser = auth.register(login, password, false);
         isAdmin = false;
         System.out.println();
         System.out.println("Registered successfully!");
@@ -106,6 +103,8 @@ public class Main {
     }
 
     private static void adminRoutine() {
+        System.out.println(income);
+        income++;
         System.out.println("Choose action:");
         System.out.println("1) Get all dishes in menu");
         System.out.println("2) Add dish in menu");
@@ -113,7 +112,9 @@ public class Main {
         System.out.println("4) Change dish in menu");
         System.out.println("5) Get statistics");
         System.out.println("6) Log out");
-        String input = sc.next();
+
+        String input = sc.nextLine();
+
         switch (input){
             case "1":
                 printDishes();
@@ -137,13 +138,14 @@ public class Main {
                 break;
             default:
                 adminRoutine();
+                break;
         }
     }
 
     private static void addDish() {
         System.out.println();
         System.out.print("Input name of the dish: ");
-        String name = sc.next();
+        String name = sc.nextLine();
         System.out.print("Input price of the dish: ");
         double price = sc.nextDouble();
         System.out.print("Input difficulty of the dish: ");
@@ -158,7 +160,7 @@ public class Main {
     private static void deleteDish() {
         System.out.println();
         System.out.print("Input name of dish: ");
-        String name = sc.next();
+        String name = sc.nextLine();
         ArrayList<Dish> dishes = menu.getDishes();
         boolean flag = false;
         for (Dish dish : dishes) {
@@ -182,7 +184,7 @@ public class Main {
         ArrayList<Dish> dishes = menu.getDishes();
         System.out.println();
         System.out.print("Input name of dish: ");
-        String name = sc.next();
+        String name = sc.nextLine();
         Dish dish = null;
         for (Dish value : dishes) {
             if (value.getName().equals(name)) {
@@ -197,7 +199,7 @@ public class Main {
 
         } else {
             System.out.print("New name of dish(currently: " + dish.getName() + "): ");
-            String newName = sc.next();
+            String newName = sc.nextLine();
             System.out.print("New price of dish(currently: " + dish.getPrice() + "): ");
             double newPrice = sc.nextDouble();
             System.out.print("New difficulty of dish(currently: " + dish.getDifficulty() + "): ");
@@ -226,7 +228,7 @@ public class Main {
         System.out.println("5) Cancel your order");
         System.out.println("6) Pay for your order");
         System.out.println("7) Log out");
-        String input = sc.next();
+        String input = sc.nextLine();
         switch (input) {
             case "1":
                 printDishes();

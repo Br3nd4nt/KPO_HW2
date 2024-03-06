@@ -10,6 +10,12 @@ public class Customer extends User{
         this.cookingThreads = new ArrayList<>();
     }
 
+    public Customer(String username, int hash) {
+        super(username, hash);
+        this.orders = new ArrayList<>();
+        this.cookingThreads = new ArrayList<>();
+    }
+
     public void createOrder(ArrayList<Dish> dishes) {
         Order order = new Order(this);
         for (Dish dish : dishes) {

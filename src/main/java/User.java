@@ -3,7 +3,13 @@ public class User {
     protected int passwordHash;
 
     public User(String username, String password) {
-        this.passwordHash = password.hashCode();
+
+        this.passwordHash = (password).hashCode();
+        this.username = username;
+    }
+
+    public User(String username, int hash) {
+        this.passwordHash = hash;
         this.username = username;
     }
 }

@@ -3,6 +3,10 @@ public class Administrator extends User{
         super(username, passwordHash);
     }
 
+    public Administrator(String username, int hash) {
+        super(username, hash);
+    }
+
     public void addDish(Menu menu, Dish dish) {
         menu.addDish(dish);
     }
