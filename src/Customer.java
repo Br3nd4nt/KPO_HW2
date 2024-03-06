@@ -1,27 +1,62 @@
 import java.util.ArrayList;
 
 public class Customer extends User{
-    private ArrayList<Order> orders;
+    private final ArrayList<Order> orders;
+    private final ArrayList<OrderCookingThread> cookingThreads;
 
     public Customer(String username, String password) {
         super(username, password);
-        this.orders = new ArrayList<Order>();
+        this.orders = new ArrayList<>();
+        this.cookingThreads = new ArrayList<>();
     }
 
-    public Order createOrder(Menu menu, ArrayList<Dish> dishes) {
-        Order order = new Order(menu, this);
+    public void createOrder(ArrayList<Dish> dishes) {
+        Order order = new Order(this);
         for (Dish dish : dishes) {
             order.addDish(dish);
         }
         orders.add(order);
-        return order;
+        OrderCookingThread cookingThread = new OrderCookingThread(order, order.getDifficulty());
+        cookingThread.start();
+        cookingThreads.add(cookingThread);
+
     }
 
-    public double payForOrder(Order order) {
+    public void addToOrder(Order order, ArrayList<Dish> dishes) {
+        //TODO
+        for (var thread : cookingThreads) {
+            if (thread.getOrder() == order) {
+                int time = 0;
+                for (Dish dish : dishes) {
+                    time += dish.getDifficulty();
+                    thread.getOrder().addDish(dish);
+                }
+                thread.addTime(time);
+                thread.run();
+            }
+
+        }
+    }
+
+    public void cancelOrder(Order order) {
+        //TODO
+        for (var thread : cookingThreads) {
+            if (thread.getOrder() == order) {
+                thread.interrupt();
+                order = null;
+                cookingThreads.remove(thread);
+            }
+        }
+    }
+
+    public void payForOrder(Order order) {
         if (orders.contains(order) && order.getStatus() == OrderStatus.Ready) {
             orders.remove(order);
-            return order.getTotalPrice();
+            order.getPrice();
         }
-        return 0;
+    }
+
+    public ArrayList<Order> getOrders() {
+        return orders;
     }
 }

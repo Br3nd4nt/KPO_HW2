@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Authentication {
-    private ArrayList<User> users;
+    private final ArrayList<User> users;
 
     public Authentication() {
         this.users = new ArrayList<>();

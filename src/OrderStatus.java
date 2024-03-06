@@ -1,9 +1,8 @@
 public enum OrderStatus {
-    Accepted("Accepted"),
     InProgress("In progress"),
     Ready("Ready");
 
-    private String title;
+    private final String title;
 
     OrderStatus(String title) {
         this.title = title;

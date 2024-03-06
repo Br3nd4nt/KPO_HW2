@@ -35,6 +35,6 @@ public class Dish {
     }
 
     public String toString() {
-        return "(Dish) Name: " + this.name + "; Price: " + this.price + "; Difficulty: " + this.difficulty;
+        return "Name: " + this.name + "; Price: " + this.price + "; Difficulty: " + this.difficulty;
     }
 }

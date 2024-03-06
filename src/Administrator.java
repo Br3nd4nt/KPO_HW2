@@ -11,5 +11,9 @@ public class Administrator extends User{
         menu.removeDish(dish);
     }
 
-    public void changeDish(){}
+    public void changeDish(Menu menu, Dish dish, String newName, double newPrice, int newDifficulty){
+        dish.setName(newName);
+        dish.setPrice(newPrice);
+        dish.setDifficulty(newDifficulty);
+    }
 }
