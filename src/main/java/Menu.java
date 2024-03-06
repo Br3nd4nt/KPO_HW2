@@ -14,7 +14,7 @@ public class Menu {
     private final String JSON_path = "src/jsons/menu.json";
 
     public Menu() {
-        this.dishes = new ArrayList<Dish>();
+        this.dishes = new ArrayList<>();
         try {
             StringBuilder stringBuilder = new StringBuilder();
             File file = new File(JSON_path);
@@ -59,7 +59,7 @@ public class Menu {
             JsonObject object = new JsonObject();
             object.add("name", dish.getName());
             object.add("price", dish.getPrice());
-            object.add("diffiulty", dish.getDifficulty());
+            object.add("difficulty", dish.getDifficulty());
             JSONmenu.add(object);
         }
         try {

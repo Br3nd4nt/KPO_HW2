@@ -7,11 +7,14 @@ public class Order {
     private OrderStatus status;
     private final Customer customer;
     private final boolean isPaidFor = false;
+    public int cookingTime, addedTime;
 
     public Order(Customer customer) {
         this.dishes = new ArrayList<>();
         this.status = OrderStatus.InProgress;
         this.customer = customer;
+        cookingTime = 0;
+        addedTime = 0;
 
     }
 

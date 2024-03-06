@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     static Scanner sc = new Scanner(System.in);
@@ -12,7 +9,7 @@ public class Main {
     private static double income = 0;
 
 
-    private static void printOptions() {
+    private static void enterOptions() {
         System.out.println("Choose option:");
         System.out.println("1) Login");
         System.out.println("2) Register admin");
@@ -33,7 +30,7 @@ public class Main {
                 System.out.println("Goodbye!");
                 System.exit(0);
             default:
-                printOptions();
+                enterOptions();
 
         }
     }
@@ -48,7 +45,7 @@ public class Main {
         if (user == null) {
             System.out.println("ERROR: incorrect login or password");
             System.out.println();
-            printOptions();
+            enterOptions();
         } else {
             System.out.println("Logged in successfully!");
             System.out.println();
@@ -95,16 +92,10 @@ public class Main {
             }
         }
         System.out.println();
-        if (isAdmin) {
-            adminRoutine();
-        } else {
-            customerRoutine();
-        }
+
     }
 
     private static void adminRoutine() {
-        System.out.println(income);
-        income++;
         System.out.println("Choose action:");
         System.out.println("1) Get all dishes in menu");
         System.out.println("2) Add dish in menu");
@@ -112,7 +103,6 @@ public class Main {
         System.out.println("4) Change dish in menu");
         System.out.println("5) Get statistics");
         System.out.println("6) Log out");
-
         String input = sc.nextLine();
 
         switch (input){
@@ -134,27 +124,30 @@ public class Main {
             case "6":
                 currentUser = null;
                 isAdmin = false;
-                printOptions();
-                break;
-            default:
-                adminRoutine();
+                enterOptions();
                 break;
         }
     }
 
     private static void addDish() {
+        double price;
+        int diff;
         System.out.println();
         System.out.print("Input name of the dish: ");
         String name = sc.nextLine();
         System.out.print("Input price of the dish: ");
-        double price = sc.nextDouble();
+        try {
+            price = Double.parseDouble(sc.nextLine());
+
+        } catch (NumberFormatException ignored) {return;}
         System.out.print("Input difficulty of the dish: ");
-        int diff = sc.nextInt();
+        try {
+            diff = Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException ignored) {return;}
         ((Administrator)currentUser).addDish(menu, new Dish(name, price, diff));
         System.out.println();
         System.out.println("Dish added successfully!");
         System.out.println();
-        adminRoutine();
     }
 
     private static void deleteDish() {
@@ -177,7 +170,6 @@ public class Main {
             System.out.print("Dish not found.");
         }
         System.out.println();
-        adminRoutine();
     }
 
     private static void changeDish() {
@@ -198,25 +190,30 @@ public class Main {
             System.out.println("Dish not found.");
 
         } else {
+            double newPrice;
+            int newDiff;
             System.out.print("New name of dish(currently: " + dish.getName() + "): ");
             String newName = sc.nextLine();
             System.out.print("New price of dish(currently: " + dish.getPrice() + "): ");
-            double newPrice = sc.nextDouble();
+            try{
+                newPrice = Double.parseDouble(sc.nextLine());
+            } catch (NumberFormatException ignored) {return;}
+
             System.out.print("New difficulty of dish(currently: " + dish.getDifficulty() + "): ");
-            int newDiff = sc.nextInt();
+            try{
+                newDiff = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException ignored) {return;}
             ((Administrator)currentUser).changeDish(menu, dish, newName, newPrice, newDiff);
 
 
         }
         System.out.println();
-        adminRoutine();
     }
 
     private static void getStats() {
         System.out.println();
         System.out.println("Your total income: " + income);
         System.out.println();
-        adminRoutine();
     }
 
     private static void customerRoutine() {
@@ -251,10 +248,8 @@ public class Main {
             case "7":
                 currentUser = null;
                 isAdmin = false; // just in case
-                printOptions();
+                enterOptions();
                 break;
-            default:
-                customerRoutine();
         }
     }
 
@@ -269,7 +264,11 @@ public class Main {
             System.out.println("For every item in the menu choose the quantity you want in your order:");
             for (Dish dish : dishes) {
                 System.out.print(dish.getName() + " (price: " + dish.getPrice() + ") - ");
-                int quantity = sc.nextInt();
+
+                int quantity;
+                try{
+                    quantity = Integer.parseInt(sc.nextLine());
+                } catch (NumberFormatException ignored) {return;}
                 for (int i = 0; i < quantity; i++) {
                     dishesInOrder.add(dish); // no need to create copy because we won't be changing it
                 }
@@ -278,7 +277,6 @@ public class Main {
         }
 
         System.out.println();
-        customerRoutine();
     }
 
     private static void seeOrders() {
@@ -294,7 +292,6 @@ public class Main {
             }
         }
         System.out.println();
-        customerRoutine();
     }
 
     private static void addToOrder() {
@@ -309,7 +306,10 @@ public class Main {
             for (int i = 0; i < orders.size(); i++) {
                 System.out.println((i + 1) + ") " + orders.get(i));
             }
-            int numberOfOrder = sc.nextInt();
+            int numberOfOrder, quantity;
+            try {
+                numberOfOrder = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException ignored) {return;}
             if (numberOfOrder > orders.size() || numberOfOrder < 1) {
                 System.out.println("Wrong number of order");
             } else {
@@ -317,17 +317,18 @@ public class Main {
                 System.out.println("For every item in the menu choose the quantity you want add:");
                 for (Dish dish : menu.getDishes()) {
                     System.out.print(dish.getName() + " (price: " + dish.getPrice() + ") - ");
-                    int quantity = sc.nextInt();
+                    try{
+                        quantity = Integer.parseInt(sc.nextLine());
+                    } catch (NumberFormatException ignored) {return;}
                     for (int i = 0; i < quantity; i++) {
                         dishesToAdd.add(dish);
                     }
                 }
-                ((Customer)currentUser).addToOrder(orders.get(numberOfOrder), dishesToAdd);
+                ((Customer)currentUser).addToOrder(orders.get(numberOfOrder - 1), dishesToAdd);
             }
         }
 
         System.out.println();
-        customerRoutine();
     }
 
     private static void cancelOrder() {
@@ -342,7 +343,10 @@ public class Main {
             for (int i = 0; i < orders.size(); i++) {
                 System.out.println((i + 1) + ") " + orders.get(i));
             }
-            int numberOfOrder = sc.nextInt();
+            int numberOfOrder;
+            try{
+                numberOfOrder = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException ignored) {return;}
             if (numberOfOrder > orders.size() || numberOfOrder < 1) {
                 System.out.println("Wrong number of order");
             } else {
@@ -353,7 +357,6 @@ public class Main {
         }
 
         System.out.println();
-        customerRoutine();
     }
 
     private static void payForOrder() {
@@ -368,7 +371,10 @@ public class Main {
             for (int i = 0; i < orders.size(); i++) {
                 System.out.println((i + 1) + ") " + orders.get(i));
             }
-            int numberOfOrder = sc.nextInt();
+            int numberOfOrder;
+            try{
+                numberOfOrder = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException ignored) {return;}
             if (numberOfOrder > orders.size() || numberOfOrder < 1) {
                 System.out.println("Wrong number of order");
             } else {
@@ -380,11 +386,10 @@ public class Main {
         }
 
         System.out.println();
-        customerRoutine();
     }
 
     public static void main(String[] args) {
-        printOptions();
+        enterOptions();
         if (currentUser == null) {
             //something went wrong
             System.exit(0);

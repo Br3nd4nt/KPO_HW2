@@ -29,7 +29,6 @@ public class Customer extends User{
     }
 
     public void addToOrder(Order order, ArrayList<Dish> dishes) {
-        //TODO
         for (var thread : cookingThreads) {
             if (thread.getOrder() == order) {
                 int time = 0;
@@ -37,15 +36,13 @@ public class Customer extends User{
                     time += dish.getDifficulty();
                     thread.getOrder().addDish(dish);
                 }
-                thread.addTime(time);
-                thread.run();
+                order.addedTime += time;
             }
 
         }
     }
 
     public void cancelOrder(Order order) {
-        //TODO
         for (var thread : cookingThreads) {
             if (thread.getOrder() == order) {
                 thread.interrupt();
